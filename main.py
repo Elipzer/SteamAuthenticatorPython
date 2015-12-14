@@ -38,8 +38,6 @@ from datetime import datetime
 from binascii import unhexlify
 
 def get_confirmation_key(time, secret, tag):
-    # ---- NOT WORKING, but someone may know how to fix it?
-    #
     # time - The Unix time for which you are generating this secret. Generally should be the current time.
     # secret - The identity_secret that you received when enabling two-factor authentication
     # tag - The tag which identifies what this request (and therefore key) will be for. "conf" to load the confirmations page, "details" to load details about a trade, "allow" to confirm a trade, "cancel" to cancel it.
@@ -50,7 +48,7 @@ def get_confirmation_key(time, secret, tag):
     print 'value: ' + v.encode('hex')
 
     h = hmac.new(base64.b64decode(secret), v, hashlib.sha1)
-    return h.hexdigest()
+    return h.digest().encode('base64')
 
 def long_to_bytes(val, endianness='big'):
     width = 64#force 64 bit long
